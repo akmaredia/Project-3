@@ -179,8 +179,8 @@ descriptions_fav_users = [u[0] for u in cursor.fetchall()]
 
 # Make a query using an INNER JOIN to get a list of tuples with 2 elements in each tuple: the user screenname and the text of the tweet -- for each tweet that has been retweeted more than 50 times. Save the resulting list of tuples in a variable called joined_result.
 
-# cursor.execute("SELECT Users.screen_name, Tweets.text FROM Tweets INNER JOIN Users on Tweets.user_id = Users.user_id WHERE Tweets.retweets >= 5")
-# joined_result = cursor.fetchall()
+cursor.execute("SELECT Users.screen_name, Tweets.text FROM Tweets INNER JOIN Users on Tweets.user_id = Users.user_id WHERE Tweets.retweets >= 50")
+joined_result = cursor.fetchall()
 
 ## Task 4 - Manipulating data with comprehensions & libraries
 
@@ -202,7 +202,12 @@ most_common_char = collections.Counter(string.replace(" ", "")).most_common(1)[0
 # Write code to create a dictionary whose keys are Twitter screen names and whose associated values are lists of tweet texts that that user posted. You may need to make additional queries to your database! To do this, you can use, and must use at least one of: the DefaultDict container in the collections library, a dictionary comprehension, list comprehension(s). Y
 # You should save the final dictionary in a variable called twitter_info_diction.
 
+td = collections.defaultdict(list)
 
+for k, v in joined_result:
+    td[k].append(v)
+
+twitter_info_diction = dict(td)
 
 ### IMPORTANT: MAKE SURE TO CLOSE YOUR DATABASE CONNECTION AT THE END OF THE FILE HERE SO YOU DO NOT LOCK YOUR DATABASE (it's fixable, but it's a pain). ###
 
